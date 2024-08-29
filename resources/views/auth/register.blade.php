@@ -16,7 +16,7 @@
                             @endforeach
                         </div>
                     @endif
-                    <form method="POST" action="{{ url('register') }}">
+                    <form method="POST" action="{{ route('register.client') }}">
                         @csrf
                         <div class="mb-4">
                             <label for="name" class="form-label">Nom</label>

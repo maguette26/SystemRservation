@@ -9,7 +9,7 @@
                     <h4 class="mb-0">Connexion - SenReserv Events</h4>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ url('login') }}">
+                    <form method="POST" action="{{route('login') }}">
                         @csrf
                         <div class="mb-4">
                             <label for="email" class="form-label">{{ __('Adresse e-mail') }}</label>

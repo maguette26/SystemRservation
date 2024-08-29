@@ -5,18 +5,25 @@
 @endsection
 
 @section('main')
-{{-- @dd($event->id); --}}
+{{-- Affichage des messages de session --}}
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+{{-- Affichage des erreurs de validation --}}
+@if ($errors->any())
+    <div class="alert alert-danger">
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </div>
+@endif
+
 <form class="w-50 mx-auto shadow p-3 rounded" action="{{ route('admin.update', $event->id) }}" method="post" enctype="multipart/form-data">
     @csrf
     @method('PUT')
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            @foreach ($errors->all() as $e)
-                <li>{{ $e }}</li>
-            @endforeach
-        </div>
-    @endif
 
     <div class="mb-3">
         <label for="name" class="form-label">Nom</label>

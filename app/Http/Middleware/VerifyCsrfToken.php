@@ -13,6 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
+        '/panier/store',
         '/cart/store',
         '/admin/login',
         '/admin/create',
@@ -26,5 +27,6 @@ class VerifyCsrfToken extends Middleware
         '/admin/reservations/15',
         'login',
         'register',
+        'admin/7',
     ];
 }

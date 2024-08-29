@@ -83,7 +83,11 @@
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
+                        @php
+                           dump(Auth::check());
+                        @endphp
                         <!-- Dropdown pour Connexion/Inscription -->
+                        @guest
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" id="authDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-user"></i>
@@ -93,6 +97,8 @@
                                 <li><a class="dropdown-item" href="{{ route('register') }}">Inscription</a></li>
                             </ul>
                         </li>
+                        @endguest
+
                         <!-- Panier -->
                         <li class="nav-item">
                             <a href="{{ route('cart.index') }}" class="nav-link">
@@ -136,7 +142,7 @@
     <!-- Events Section Start -->
     @yield('content')
     <!-- Events Section End -->
- 
+
     <footer class="container-fluid bg-primary text-white py-5">
         <div class="container text-center">
             <div class="footer-text mt-4">

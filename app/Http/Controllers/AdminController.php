@@ -56,12 +56,18 @@ class AdminController extends Controller
         return redirect()->route('admin.index')->with('notice', 'Ajout effectué avec succès');
     }
 
-    public function edit(Event $event)
-    {
-        $eventTypes = EventType::all();
-        return view('admin.edit', compact('event', 'eventTypes'));
-    }
-
+    // public function edit(Event $event)
+    // {
+    //     dd($event);
+    //     $eventTypes = EventType::all();
+    //     return view('admin.edit', compact('event', 'eventTypes'));
+    // }
+public function edit($id)
+{
+    $event = Event::findOrFail($id);
+    $eventTypes = EventType::all();
+    return view('admin.edit', compact('event', 'eventTypes'));
+}
     public function update(Request $request, Event $event)
     {
         $validated = $request->validate([
@@ -85,10 +91,9 @@ class AdminController extends Controller
             $path = $file->store('images', 'public');
             $validated['image'] = $path;
         }
-
         $event->update($validated);
 
-        return redirect()->route('admin.index')->with('notice', 'Événement mis à jour avec succès.');
+        return redirect()->route('admin.index', $event->id)->with('success', 'Événement mis à jour avec succès.');
     }
 
     public function destroy(Event $event)

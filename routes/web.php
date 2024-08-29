@@ -1,27 +1,22 @@
 <?php
-
-
-
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ArtController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EventController;
-use App\Http\Controllers\ReservController;
 use App\Http\Controllers\AccueilController;
 use App\Http\Controllers\AproposController;
-use App\Http\Controllers\ConcertController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\RechercheController;
-use App\Http\Controllers\ConferenceController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ReservationController;
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\Auth\RegisterController;
 
 
 /*
@@ -47,26 +42,31 @@ use App\Http\Controllers\CartController;
     Route::post('contact', [ContactController::class, 'submit'])->name('contact.submit');
     Route::get('/recherche', [EventController::class, 'search'])->name('recherche');
     Route::get('/event/{id}', [EventController::class, 'show'])->name('event.show');
-    Route::get('categorie/concert', [EventTypeController::class, 'concert'])->name('categorie.concert');
-    Route::get('categorie/conference', [EventTypeController::class, 'conference'])->name('categorie.conference');
-    Route::get('categorie/exposition', [EventTypeController::class, 'exposition'])->name('categorie.exposition');;
+   // Routes pour les types d'événements
+Route::prefix('categorie')->group(function () {
+    Route::get('concert', [EventTypeController::class, 'concert'])->name('categorie.concert');
+    Route::get('conference', [EventTypeController::class, 'conference'])->name('categorie.conference');
+    Route::get('exposition', [EventTypeController::class, 'exposition'])->name('categorie.exposition');
+});
 
 
 //    route user
     Route::prefix('user')->middleware('auth')->group(function () {
-        Route::get('auth/login', [UserController::class, 'showLoginForm'])->name('auth.login');
-        Route::post('auth/login', [UserController::class, 'login']);
-        Route::post('auth/logout', [UserController::class, 'logout'])->name('auth.logout');
         Route::get('/admin/_menu', [UserController::class, 'adminDashboard']);
         Route::get('/reservations', [UserController::class, 'showReservations'])->name('user.reservations');
         // Route::get('/user/reservations', [UserController::class, 'showReservations'])->name('user.reservations');
     });
+    // Routes user publiques
+Route::get('/auth/login', [UserController::class, 'showLoginForm'])->name('auth.login');
+Route::post('/auth/login', [UserController::class, 'login']);
+Route::post('/auth/logout', [UserController::class, 'logout'])->name('auth.logout');
+
 
 
 // Routes pour l'authentification des administrateurs
 Route::prefix('admin' )->group(function () {
     Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
-    Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashbord');
     Route::post('login', [AdminAuthController::class, 'login'])->name('admin.dashboard');
     Route::get('register', [AdminAuthController::class, 'showRegistrationForm'])->name('admin.register');
     Route::post('register', [AdminAuthController::class, 'register']);
@@ -95,15 +95,14 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // route cart
-// Route::middleware('auth')->group(function () {
-//     // Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-//     Route::patch('/cart/{id}', [CartController::class, 'update'])->name('cart.update');
-//     Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
-// });
 Route::patch('/cart/{id}', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/store', [CartController::class, 'store'])->name('store');
+Route::post('/cart/store', [CartController::class, 'store'])->name('cart.store');
+
+
+
+
 
 //   route payement
 Route::middleware('auth')->group(function () {
@@ -125,10 +124,9 @@ Route::middleware(['auth:api'])->group(function () {
 
 // Routes pour l'authentification du user
 
-Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('login', [AuthController::class, 'login']);
-Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('register');
-Route::post('register', [AuthController::class, 'register']);
+Route::get('login', [AuthController::class, 'showLoginForm']);
+Route::post('login', [LoginController::class, 'login'])->name('login');
+Route::post('register', [RegisterController::class, 'register'])->name('register.client');
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 

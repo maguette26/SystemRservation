@@ -19,7 +19,7 @@
                             <h2>Bienvenue à</h2>
                             <h1>Votre Événement</h1>
                             <p>Découvrez nos offres pour une expérience inoubliable.</p>
-                            <a href="#" class="btn btn-primary">Réservez maintenant</a>
+                            <a href="#" class="btn btn-primary">Voir les événements</a>
                         </div>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                             <h2>Explorez</h2>
                             <h1>Nos Services</h1>
                             <p>Nous proposons une gamme variée d'événements pour tous les goûts.</p>
-                            <a href="#" class="btn btn-primary">En savoir plus</a>
+                            <a href="#" class="btn btn-primary">Voir les événements</a>
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                                     </ul>
                                     <div class="d-flex justify-content-between mt-auto">
 
-                                        <form action="{{ route('store') }}" method="POST">
+                                        <form action="{{ route('cart.store') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="event_id" value="{{ $event->id }}">
                                             <div class="mb-3">

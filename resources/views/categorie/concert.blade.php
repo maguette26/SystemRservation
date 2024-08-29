@@ -18,6 +18,7 @@
                             <li><i class="fas fa-calendar-alt text-primary"></i> <strong>Date:</strong> {{ $event->date }}</li>
                             <li><i class="fas fa-map-marker-alt text-primary"></i> <strong>Lieu:</strong> {{ $event->lieu }}</li>
                             <li><i class="fas fa-dollar-sign text-primary"></i> <strong>Prix:</strong> {{ $event->prix }} DH</li>
+                            <li><i class="fas fa-clock text-primary"></i> <strong>Heure:</strong> {{ \Carbon\Carbon::parse($event->heure)->format('H:i') }}</li>
                         </ul>
                         <div class="d-flex justify-content-between mt-auto">
                             <!-- Formulaire pour réserver -->

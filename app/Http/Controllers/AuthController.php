@@ -26,7 +26,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            // Rediriger l'utilisateur vers la page du panier
+            // Rediriger l'utilisateur vers la page du cart
             return redirect()->route('cart.index'); // Assurez-vous que la route 'cart.index' existe
         }
 
@@ -54,13 +54,12 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        Auth::login($user);
 
 
         return redirect()->intended('cart.index');
     }
 
-   
+
 
     public function logout()
     {

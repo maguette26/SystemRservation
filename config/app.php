@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
+use Darryldecode\Cart\Facades\CartFacade as Cart;
+
 
 return [
 
@@ -165,12 +167,12 @@ return [
          */
          App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+       App\Providers\BroadcastServiceProvider::class,
         Darryldecode\Cart\CartServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-            // App\Providers\ViewServiceProvider::class
+           App\Providers\ViewServiceProvider::class
 
 
     ])->toArray(),
@@ -188,6 +190,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
         'Cart' => CartFacade::class
     ])->toArray(),
 

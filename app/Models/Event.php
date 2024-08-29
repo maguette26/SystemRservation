@@ -9,7 +9,7 @@ class Event extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'date', 'nombre_place', 'lieu', 'description', 'image', 'prix', 'event_type_id', 'heure'];
-
+    protected $table = 'events'; 
     public function eventType()
     {
         return $this->belongsTo(EventType::class, 'event_type_id');

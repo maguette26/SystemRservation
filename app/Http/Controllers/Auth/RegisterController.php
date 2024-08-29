@@ -27,7 +27,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-      protected $redirectTo = '/create';
+      protected $redirectTo = '/page';
     // app/Http/Controllers/Auth/RegisterController.php
 
 
@@ -68,8 +68,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        dd($data );
-        return User::create([
+         return User::create([
             'name' => $data['name'],
             'prenom' => $data['prenom'],
             'email' => $data['email'],

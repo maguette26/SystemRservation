@@ -3,6 +3,7 @@
 
  use Darryldecode\Cart\Facades\CartFacade as Cart;
  use App\Models\Event;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,11 +14,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        // Afficher la page du panier pour tout le monde
 
-
-
-        //  dd($total);
         return view('cart.index' );
     }
 
@@ -25,34 +22,30 @@ class CartController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {        $request->validate([
+    {
+        $request->validate([
             'event_id' => 'required|exists:events,id',
             'number_of_places' => 'required|integer|min:1'
         ]);
 
         $event = Event::find($request->event_id);
 
+        try {
+            // Ajouter l'événement au panier
+            Cart::add([
+                'id' => $event->id,
+                'name' => $event->name,
+                'quantity' => $request->number_of_places,
+                'price' => $event->prix,
+                'attributes' => [
+                    'image' => 'storage/'.$event->image,
+                ],
+            ]);
 
-
-            try {
-                // Ajouter l'événement au panier
-                Cart::add(array(
-                    'id' => $event->id,
-                    'name' => $event->name,
-                    'quantity' => $request->number_of_places,
-                    'price' => $event->prix,
-                    'attributes' => [
-
-                        'image' => 'storage/'.$event->image, 
-                    ],
-
-                ));
-                return redirect()->back()->with('success', 'Événement ajouté au panier.');
-
-            } catch (InvalidItemException $e) {
-                return redirect()->back()->with('error', $e->getMessage());
-            }
-
+            return redirect()->back()->with('success', 'Événement ajouté au panier.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Erreur: ' . $e->getMessage());
+        }
     }
 
     /**

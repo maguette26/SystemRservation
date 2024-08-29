@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Log;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -43,10 +44,12 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        Log::info('Utilisateur connecté : ' . $user->email);
-         $user-> update([
-            'last_login_at' => now(),
-        ]);
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            // Authentication passed...
+            return redirect()->intended('page');
+        }
     }
 
 }

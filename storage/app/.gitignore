@@ -1,3 +1,4 @@
-*
-!public/
-!.gitignore
+node_modules/
+vendor/
+.env
+.DS_Store
